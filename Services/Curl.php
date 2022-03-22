@@ -18,6 +18,7 @@
 
 namespace Circle\RestClientBundle\Services;
 
+use CurlHandle;
 use Symfony\Component\HttpFoundation\Response;
 use Circle\RestClientBundle\Traits\Exceptions;
 use Circle\RestClientBundle\Traits\Assertions;
@@ -37,7 +38,7 @@ class Curl implements CurlInterface {
     /**
      * This variable stores the curl instance created through curl initiation
      *
-     * @var resource
+     * @var CurlHandle
      */
     private $curl;
 
@@ -61,7 +62,7 @@ class Curl implements CurlInterface {
      * {@inheritdoc}
      */
     public function __destruct() {
-        if (is_resource($this->curl)) curl_close($this->curl);
+        if ($this->curl instanceof CurlHandle) curl_close($this->curl);
         return $this;
     }
 
@@ -72,7 +73,7 @@ class Curl implements CurlInterface {
      * @return Curl
      */
     public function setContentType($contentType) {
-        $this->curlOptionsHandler->setOption(CURLOPT_HTTPHEADER, array('Content-Type: ' . $contentType));
+        $this->curlOptionsHandler->setOption((string)CURLOPT_HTTPHEADER, array('Content-Type: ' . $contentType));
         return $this;
     }
 
@@ -85,8 +86,8 @@ class Curl implements CurlInterface {
         if (!$this->assertHttpMethod($method))   return $this->invalidArgumentException('Invalid http method given: ' . $method);
 
         $this->curlOptionsHandler->setOptions($options);
-        $this->curlOptionsHandler->setOption(CURLOPT_RETURNTRANSFER, true);
-        $this->curlOptionsHandler->setOption(CURLOPT_HEADER, true);
+        $this->curlOptionsHandler->setOption((string)CURLOPT_RETURNTRANSFER, true);
+        $this->curlOptionsHandler->setOption((string)CURLOPT_HEADER, true);
 
         $this->setUrl($url);
         $this->setMethod($method);
@@ -150,7 +151,7 @@ class Curl implements CurlInterface {
      * @return Curl
      */
     private function setPayload($payload) {
-        $this->curlOptionsHandler->setOption(CURLOPT_POSTFIELDS, $payload);
+        $this->curlOptionsHandler->setOption((string)CURLOPT_POSTFIELDS, $payload);
         return $this;
     }
 
@@ -161,7 +162,7 @@ class Curl implements CurlInterface {
      * @return Curl
      */
     private function setURL($url) {
-        $this->curlOptionsHandler->setOption(CURLOPT_URL, $url);
+        $this->curlOptionsHandler->setOption((string)CURLOPT_URL, $url);
         return $this;
     }
 
@@ -172,7 +173,7 @@ class Curl implements CurlInterface {
      * @return Curl
      */
     private function setMethod($method) {
-        $this->curlOptionsHandler->setOption(CURLOPT_CUSTOMREQUEST, strtoupper($method));
+        $this->curlOptionsHandler->setOption((string)CURLOPT_CUSTOMREQUEST, strtoupper($method));
         return $this;
     }
 
