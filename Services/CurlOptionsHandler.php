@@ -72,7 +72,7 @@ class CurlOptionsHandler implements CurlOptionsHandlerInterface {
      * {@inheritdoc}
      */
     public function setOptions(array $options) {
-        foreach ($options as $key => $value) $this->setOption($key, $value);
+        foreach ($options as $key => $value) $this->setOption((string)$key, $value);
         return $this;
     }
 
