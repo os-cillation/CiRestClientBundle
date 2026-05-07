@@ -21,11 +21,10 @@
     "symfony/yaml": ">=2.1"
   },
   "autoload" : {
-    "psr-0" : {
-      "Circle\\RestClientBundle" : ""
+    "psr-4" : {
+      "Circle\\RestClientBundle\\" : ""
     }
   },
-  "target-dir" : "Circle/RestClientBundle",
   "extra" : {
     "branch-alias" : {
       "dev-master" : "1.0-dev"
