@@ -62,7 +62,6 @@ class Curl implements CurlInterface {
      * {@inheritdoc}
      */
     public function __destruct() {
-        if ($this->curl instanceof CurlHandle) curl_close($this->curl);
         return $this;
     }
 
